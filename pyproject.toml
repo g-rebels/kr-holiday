@@ -1,0 +1,152 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kr-holidays"
+version = "1.0.1"
+authors = [
+    {name = "basedocker", email = "oasisc1208@icloud.com"},
+]
+description = "한국 휴일/공휴일/대체공휴일 정보를 제공하는 Python 패키지"
+readme = "README.md"
+requires-python = ">=3.8"
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10", 
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business :: Scheduling",
+    
+    "Natural Language :: Korean",           # 한국어 관련
+    "Topic :: Software Development :: Localization",  # 지역화
+    "Typing :: Typed",                      # 타입 힌트 지원
+]
+
+# 키워드
+keywords = ["korean", "holidays", "calendar", "공휴일", "대체공휴일", "캘린더", "주말"]
+
+# 런타임 의존성
+dependencies = []
+
+
+[project.urls]
+Documentation = "https://github.com/g-rebels/kr-holiday/blob/master/README.md"
+Repository = "https://github.com/g-rebels/kr-holiday.git"
+"Bug Tracker" = "https://github.com/g-rebels/kr-holiday/issues"
+
+# 패키지 빌드 설정
+[tool.hatch.build.targets.wheel]
+packages = ["src/kr_holidays"]
+
+# 코드 포맷터 설정
+[tool.black]
+line-length = 120
+target-version = ["py38"] # 최소 지원 버전
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # 제외할 디렉토리들
+    \.eggs
+  | \.git
+  | \.venv
+  | build
+  | dist
+)/
+'''
+# Ruff 린터 설정
+[tool.ruff]
+line-length = 120
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # Pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+]
+ignore = [
+    "E203",  # whitespace before ':'
+    "W503",  # line break before binary operator
+]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*" = ["F401"]  # 테스트에서는 미사용 import 허용
+
+# pytest 설정
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--cov=kr_holidays",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "--strict-markers",
+    "--strict-config",
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+# 커버리지 설정
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "tests/*",
+    "*/tests/*",
+]
+
+# 테스트 커버리지 계산 제외
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[dependency-groups]
+dev = [
+    "black>=24.8.0",
+    "build>=1.2.2.post1",
+    "requests>=2.32.4",
+    "ruff>=0.12.12",
+    "twine>=6.1.0",
+]

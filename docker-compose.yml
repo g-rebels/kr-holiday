@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    volumes:
+      - .:/app
+      - uv-cache:/opt/uv-cache
+      - /app/__pycache__
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app/src
+    stdin_open: true
+    tty: true
+    # CMD 오버라이드 (선택사항)
+    # command: bash
+
+volumes:
+  uv-cache:

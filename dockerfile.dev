@@ -1,0 +1,23 @@
+FROM python:3.11-slim
+
+# uv 최신버전 설치
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
+
+# 환경변수 설정
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV UV_CACHE_DIR=/opt/uv-cache
+ENV UV_PYTHON=/usr/local/bin/python3.11
+
+# 작업 디렉토리 설정
+WORKDIR /app
+
+# uv 캐시 디렉토리 생성
+RUN mkdir -p /opt/uv-cache
+
+
+# 프로젝트 파일 복사
+COPY . .
+
+# 개발용 무한 대기
+CMD ["sleep", "infinity"]
