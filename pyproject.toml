@@ -3,13 +3,13 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "korean-holidays-extended"
-version = "1.0.0"
+name = "kr-holidays"
+version = "1.0.1"
 authors = [
     {name = "basedocker", email = "oasisc1208@icloud.com"},
 ]
 description = "한국 휴일/공휴일/대체공휴일 정보를 제공하는 Python 패키지"
-readme = "README.me"
+readme = "README.md"
 requires-python = ">=3.8"
 
 classifiers = [
@@ -45,11 +45,11 @@ Repository = "https://github.com/g-rebels/kr-holiday.git"
 
 # 패키지 빌드 설정
 [tool.hatch.build.targets.wheel]
-packages = ["src/kr_holidays]
+packages = ["src/kr_holidays"]
 
 # 코드 포맷터 설정
 [tool.black]
-line-length=120
+line-length = 120
 target-version = ["py38"] # 최소 지원 버전
 include = '\.pyi?$'
 extend-exclude = '''
@@ -140,4 +140,13 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "class .*\\bProtocol\\):",
     "@(abc\\.)?abstractmethod",
+]
+
+[dependency-groups]
+dev = [
+    "black>=24.8.0",
+    "build>=1.2.2.post1",
+    "requests>=2.32.4",
+    "ruff>=0.12.12",
+    "twine>=6.1.0",
 ]
