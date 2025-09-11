@@ -94,10 +94,8 @@ jobs:
     - name: Test package installation
       run: |
         # 새로운 가상환경에서 빌드된 패키지 설치 테스트
-        uv venv test-env
-        source test-env/bin/activate
-        pip install dist/*.whl
-        python -c "from kr_holidays import is_holiday; print('✅ Package import test:', is_holiday('2024-01-01'))"
+        uv run --with ./dist/kr_holidays-1.0.1-py3-none-any.whl python -c "from kr_holidays import is_holiday; print('✅ Package import test:', is_holiday('2024-01-01'))"
+
 
   # 보안 검사 (선택사항)
   security:
