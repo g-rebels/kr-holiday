@@ -147,6 +147,7 @@ dev = [
     "black>=24.8.0",
     "build>=1.2.2.post1",
     "pytest>=8.3.5",
+    "pytest-cov>=5.0.0",
     "requests>=2.32.4",
     "ruff>=0.12.12",
     "twine>=6.1.0",
