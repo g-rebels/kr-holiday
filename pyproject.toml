@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "kr-holidays"
+name = "kr_holidays"
 version = "1.0.1"
 authors = [
     {name = "basedocker", email = "oasisc1208@icloud.com"},

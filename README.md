@@ -1,4 +1,4 @@
-# 한국 공휴일 패키지 (kr-holidays)
+# 한국 공휴일 패키지 (kr_holidays)
 
 캘린더 등에 활용하기 편한 **평일, 주말, 공휴일, 대체공휴일** 정보를 제공하는 Python 패키지입니다.
 
@@ -18,19 +18,19 @@
 ### 최신 버전 설치
 ```bash
 # pip 사용
-pip install kr-holidays
+pip install kr_holidays
 
 # uv 사용 (권장)
-uv add kr-holidays
+uv add kr_holidays
 ```
 
 ### 특정 버전 설치
 ```bash
 # pip 사용
-pip install kr-holidays==1.0.1
+pip install kr_holidays==1.0.1
 
 # uv 사용
-uv add kr-holidays==1.0.1
+uv add kr_holidays==1.0.1
 ```
 
 ## 🚀 빠른 시작
