@@ -5,7 +5,7 @@
 """
 
 from datetime import date, datetime, timedelta
-from typing import Union, Tuple
+from typing import Union, Tuple, List
 
 
 def parse_date_input(date_input: Union[str, date, datetime]) -> date:
@@ -183,7 +183,7 @@ def get_days_in_month(year: int, month: int) -> int:
     return end_date.day
 
 
-def date_range(start_date: date, end_date: date, step: int = 1) -> list[date]:
+def date_range(start_date: date, end_date: date, step: int = 1) -> List[date]:
     """두 날짜 사이의 모든 날짜를 생성
 
     Args:
