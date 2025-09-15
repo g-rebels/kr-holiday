@@ -239,7 +239,7 @@ def format_date_korean(target_date: date, include_weekday: bool = True) -> str:
     return formatted
 
 
-def validate_year_range(year: int, min_year: int = 2010, max_year: int = 2040) -> None:
+def validate_year_range(year: int, min_year: int = 2000, max_year: int = 2050) -> None:
     """연도 유효성 검사
 
     Args:

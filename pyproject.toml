@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "kr_holidays"
-version = "1.0.1"
+version = "1.0.0"
 authors = [
     {name = "basedocker", email = "oasisc1208@icloud.com"},
 ]

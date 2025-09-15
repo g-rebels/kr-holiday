@@ -221,10 +221,10 @@ class TestUtils:
             validate_year_range(year="2024")  # 타입 오류
 
         with pytest.raises(ValueError):
-            validate_year_range(year=2000)  # 범위 오류 (2000 < 2010)
+            validate_year_range(year=1999)  # 범위 오류 (2000 < 2010)
 
         with pytest.raises(ValueError):
-            validate_year_range(year=2050)  # 범위 오류 (2050 > 2040)
+            validate_year_range(year=2051)  # 범위 오류 (2050 > 2040)
 
         # 정상 케이스
         validate_year_range(year=2025) == None  # 예외 발생하지 않음
