@@ -3,8 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "kr-holidays"
-version = "1.0.1"
+name = "kr_holidays"
+version = "1.0.0"
 authors = [
     {name = "basedocker", email = "oasisc1208@icloud.com"},
 ]
@@ -146,6 +146,8 @@ exclude_lines = [
 dev = [
     "black>=24.8.0",
     "build>=1.2.2.post1",
+    "pytest>=8.3.5",
+    "pytest-cov>=5.0.0",
     "requests>=2.32.4",
     "ruff>=0.12.12",
     "twine>=6.1.0",

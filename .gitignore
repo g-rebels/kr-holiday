@@ -46,3 +46,7 @@ uv.lock
 # OS
 .DS_Store
 Thumbs.db
+
+
+# Data Migration
+src/kr_holidays/data/generate_calendar.py

@@ -1,0 +1,119 @@
+name: Tests and Coverage
+
+on:
+  push:
+    branches: [ develop ]  # develop 브랜치 추가
+  
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.9", "3.10", "3.11", "3.12"]
+      fail-fast: false  # 하나 실패해도 다른 버전은 계속 테스트
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+      with:
+        enable-cache: true  # uv 캐시 활성화
+
+    - name: Create virtual environment
+      run: uv venv
+
+    - name: Install dependencies
+      run: |
+        uv sync --group dev
+
+    - name: Verify package structure
+      run: |
+        ls -la src/kr_holidays/
+        ls -la src/kr_holidays/data/
+        echo "✅ Package structure verified"
+
+    - name: Run tests with coverage
+      run: |
+        uv run pytest tests/ --cov=kr_holidays --cov-report=xml --cov-report=term-missing --verbose
+
+    - name: Display coverage summary
+      run: |
+        echo "## Coverage Summary" >> $GITHUB_STEP_SUMMARY
+        uv run coverage report --format=markdown >> $GITHUB_STEP_SUMMARY
+
+    - name: Upload coverage to Codecov
+      if: matrix.python-version == '3.11'  # Python 3.11에서만 업로드
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        token: ${{ secrets.CODECOV_TOKEN }}  # Organization에서는 토큰 필요할 수 있음
+
+  # 패키지 빌드 테스트
+  build-test:
+    runs-on: ubuntu-latest
+    needs: test
+    if: always() && (needs.test.result == 'success' || needs.test.result == 'failure')
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+
+    - name: Install build dependencies
+      run: |
+        uv add --dev build twine
+
+    - name: Build package
+      run: |
+        uv run python -m build
+
+    - name: Check package
+      run: |
+        uv run twine check dist/*
+        ls -la dist/
+        echo "✅ Package build and check successful"
+
+    - name: Test package installation
+      run: |
+        # 새로운 가상환경에서 빌드된 패키지 설치 테스트
+        uv run --with ./dist/kr_holidays-1.0.0-py3-none-any.whl python -c "from kr_holidays import is_holiday; print('✅ Package import test:', is_holiday('2024-01-01'))"
+
+
+  # 보안 검사 (선택사항)
+  security:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install uv
+      uses: astral-sh/setup-uv@v2
+
+    - name: Install safety
+      run: uv add --dev safety
+
+    - name: Run safety check
+      run: uv run safety check --json || echo "⚠️ Security check completed with warnings"

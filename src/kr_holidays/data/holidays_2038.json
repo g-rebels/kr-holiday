@@ -1,6 +1,6 @@
 {
   "year": 2038,
-  "generated_at": "2025-09-09T07:27:48.749634",
+  "generated_at": "2025-09-15T06:36:17.145374",
   "source": "공공데이터포털 API",
   "api_url": "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo",
   "statistics": {

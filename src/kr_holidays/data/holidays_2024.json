@@ -1,6 +1,6 @@
 {
   "year": 2024,
-  "generated_at": "2025-09-09T07:27:47.739666",
+  "generated_at": "2025-09-15T06:36:15.312667",
   "source": "공공데이터포털 API",
   "api_url": "http://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo",
   "statistics": {
@@ -8,7 +8,7 @@
     "holiday_days": 19,
     "weekend_days": 104,
     "working_days": 243,
-    "substitute_holidays": 0
+    "substitute_holidays": 2
   },
   "days": [
     {
@@ -525,7 +525,7 @@
       "is_weekend": false,
       "is_holiday": true,
       "holiday_name": "대체공휴일(설날)",
-      "is_substitute_holiday": false
+      "is_substitute_holiday": true
     },
     {
       "year": 2024,
@@ -1533,7 +1533,7 @@
       "is_weekend": false,
       "is_holiday": true,
       "holiday_name": "대체공휴일(어린이날)",
-      "is_substitute_holiday": false
+      "is_substitute_holiday": true
     },
     {
       "year": 2024,
