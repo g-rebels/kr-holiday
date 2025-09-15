@@ -1,7 +1,7 @@
 """kr_holidays 패키지 기본 테스트"""
 
 import pytest
-from datetime import date
+from datetime import date, datetime
 from kr_holidays import (
     is_holiday,
     is_weekend,
@@ -11,6 +11,15 @@ from kr_holidays import (
     get_next_holiday,
     count_working_days,
     KoreanHolidays,
+    get_weekday_korean,
+    get_weekday_korean_short,
+    validate_year_range,
+    format_date_korean,
+    get_days_in_month,
+    date_range,
+    is_leap_year,
+    get_month_range,
+    parse_date_input,
 )
 
 
@@ -150,7 +159,7 @@ class TestErrorHandling:
 
     def test_unsupported_year(self):
         """지원하지 않는 연도 테스트"""
-        with pytest.raises(FileNotFoundError):
+        with pytest.raises(ValueError):
             get_holidays(2000)  # 지원하지 않는 연도
 
     def test_invalid_date_format(self):
@@ -197,6 +206,75 @@ class TestSpecificHolidays:
         # 2024년 10월 1일 임시공휴일
         assert is_holiday("2024-10-01") == True
         # 실제 API 데이터에 따라 이름이 달라질 수 있음
+
+
+class TestUtils:
+
+    def test_get_weekday_korean(self):
+        assert get_weekday_korean(date(2025, 1, 1)) == "수요일"
+
+    def test_get_weekday_korean_short(self):
+        assert get_weekday_korean_short(date(2025, 1, 3)) == "금"
+
+    def test_validate_year_range(self):
+        with pytest.raises(ValueError):
+            validate_year_range(year="2024")  # 타입 오류
+
+        with pytest.raises(ValueError):
+            validate_year_range(year=2000)  # 범위 오류 (2000 < 2010)
+
+        with pytest.raises(ValueError):
+            validate_year_range(year=2050)  # 범위 오류 (2050 > 2040)
+
+        # 정상 케이스
+        validate_year_range(year=2025) == None  # 예외 발생하지 않음
+
+    def test_format_date_korean(self):
+        assert format_date_korean(date(2025, 1, 2)) == "2025년 1월 2일 (목요일)"
+
+        assert format_date_korean(date(2025, 1, 2), include_weekday=False) == "2025년 1월 2일"
+
+    def test_get_days_in_month(self):
+        assert get_days_in_month(year=2025, month=2) == 28
+
+    def test_date_range(self):
+
+        assert date_range(date(2024, 2, 1), date(2024, 2, 4)) == [
+            date(2024, 2, 1),
+            date(2024, 2, 2),
+            date(2024, 2, 3),
+            date(2024, 2, 4),
+        ]
+
+    def test_is_leap_year(self):
+
+        assert is_leap_year(year=2024) == True
+        assert is_leap_year(year=2032) == True
+        assert is_leap_year(year=2025) == False
+        assert is_leap_year(year=2030) == False
+
+    def test_get_month_range(self):
+
+        with pytest.raises(ValueError):
+            get_month_range(year=2025, month=13)
+
+        assert get_month_range(year=2025, month=7) == (date(2025, 7, 1), date(2025, 7, 31))
+
+    def test_parse_date_input(self):
+
+        assert parse_date_input(date(2025, 7, 31)) == date(2025, 7, 31)
+        assert parse_date_input(datetime(2025, 7, 31, 14, 30, 45)) == date(2025, 7, 31)
+
+        assert parse_date_input("2025-07-31") == date(2025, 7, 31)
+        assert parse_date_input("2025/07/31") == date(2025, 7, 31)
+        assert parse_date_input("20250731") == date(2025, 7, 31)
+        assert parse_date_input("2025.07.31") == date(2025, 7, 31)
+
+        with pytest.raises(ValueError):
+            parse_date_input("2025.07/31")
+
+        with pytest.raises(TypeError):
+            parse_date_input(20250201)
 
 
 if __name__ == "__main__":
