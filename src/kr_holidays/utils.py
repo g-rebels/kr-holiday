@@ -29,11 +29,11 @@ def parse_date_input(date_input: Union[str, date, datetime]) -> date:
         >>> parse_date_input("20240101")
         date(2024, 1, 1)
     """
-    if isinstance(date_input, date):
-        return date_input
-
-    if isinstance(date_input, datetime):
+    if type(date_input) is datetime:  # 정확한 타입 체크
         return date_input.date()
+
+    if type(date_input) is date:
+        return date_input
 
     if isinstance(date_input, str):
         # 다양한 날짜 형식 지원
@@ -160,6 +160,9 @@ def get_month_range(year: int, month: int) -> Tuple[date, date]:
 def is_leap_year(year: int) -> bool:
     """윤년 여부 확인
 
+    윤년이란? : 평년보다 하루가 더 많은 연도를 의미, 평년은 365일이지만 윤년은 366일로, 2월이 29일까지 존재함
+
+
     Args:
         year: 확인할 연도
 
@@ -236,13 +239,13 @@ def format_date_korean(target_date: date, include_weekday: bool = True) -> str:
     return formatted
 
 
-def validate_year_range(year: int, min_year: int = 1900, max_year: int = 2100) -> None:
+def validate_year_range(year: int, min_year: int = 2000, max_year: int = 2050) -> None:
     """연도 유효성 검사
 
     Args:
         year: 검사할 연도
-        min_year: 최소 연도 (기본값: 1900)
-        max_year: 최대 연도 (기본값: 2100)
+        min_year: 최소 연도 (기본값: 2010)
+        max_year: 최대 연도 (기본값: 2040)
 
     Raises:
         ValueError: 연도가 유효 범위를 벗어난 경우
