@@ -160,7 +160,10 @@ class TestErrorHandling:
     def test_unsupported_year(self):
         """지원하지 않는 연도 테스트"""
         with pytest.raises(ValueError):
-            get_holidays(2000)  # 지원하지 않는 연도
+            get_holidays(1999)  # 지원하지 않는 연도
+
+        with pytest.raises(ValueError):
+            get_holidays(2051)  # 지원하지 않는 연도
 
     def test_invalid_date_format(self):
         """잘못된 날짜 형식 테스트"""
